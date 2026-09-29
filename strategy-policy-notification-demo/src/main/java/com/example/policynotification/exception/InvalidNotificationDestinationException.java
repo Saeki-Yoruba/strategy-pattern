@@ -1,6 +1,6 @@
 package com.example.policynotification.exception;
 
-public class InvalidNotificationDestinationException extends RuntimeException {
+public class InvalidNotificationDestinationException extends NotificationProcessingException {
     public InvalidNotificationDestinationException(String message) {
         super(message);
     }

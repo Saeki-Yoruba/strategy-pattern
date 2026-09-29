@@ -1,6 +1,11 @@
 package com.example.policynotification;
 
-import com.example.policynotification.model.*;
+import com.example.policynotification.model.NotificationResult;
+import com.example.policynotification.model.NotificationStatus;
+import com.example.policynotification.model.NotificationType;
+import com.example.policynotification.model.PolicyCustomerRequest;
+import com.example.policynotification.model.PolicyRenewalBatchRequest;
+import com.example.policynotification.model.PolicyRenewalBatchResult;
 import com.example.policynotification.service.PolicyRenewalNotificationService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +45,11 @@ class PolicyRenewalNotificationDemoTest {
         assertThat(result.results())
                 .extracting(NotificationResult::maskedCustomerId)
                 .noneMatch(id -> id.matches("[A-Z]\\d{9}"));
+        assertThat(result.results().toString())
+                .doesNotContain(
+                        "A123456789", "B223456781", "C123456789", "D223456781",
+                        "xiaoming.wang@example.com", "0912345678",
+                        "台北市內湖區範例路100號", "demo-device-token-0004");
     }
 
     @Test
@@ -69,9 +79,9 @@ class PolicyRenewalNotificationDemoTest {
     }
 
     private void printResult(PolicyRenewalBatchResult result) {
-        System.out.println("=".repeat(60));
-        System.out.println("保單續期通知 Strategy Pattern Demo");
-        System.out.println("=".repeat(60));
+        System.out.printf("%s%n", "=".repeat(60));
+        System.out.printf("保單續期通知 Strategy Pattern Demo%n");
+        System.out.printf("%s%n", "=".repeat(60));
         System.out.printf("輸入筆數：%d%n%n", result.totalCount());
 
         for (int index = 0; index < result.results().size(); index++) {
@@ -85,11 +95,11 @@ class PolicyRenewalNotificationDemoTest {
             System.out.printf("處理說明：%s%n%n", item.messageSummary());
         }
 
-        System.out.println("-".repeat(60));
+        System.out.printf("%s%n", "-".repeat(60));
         System.out.printf("總筆數：%d%n", result.totalCount());
         System.out.printf("成功：%d%n", result.successCount());
         System.out.printf("失敗：%d%n", result.failedCount());
         System.out.printf("查無資料：%d%n", result.notFoundCount());
-        System.out.println("=".repeat(60));
+        System.out.printf("%s%n", "=".repeat(60));
     }
 }

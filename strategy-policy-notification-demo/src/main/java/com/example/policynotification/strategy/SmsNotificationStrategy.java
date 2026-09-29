@@ -27,7 +27,7 @@ public class SmsNotificationStrategy implements NotificationStrategy {
         if (data.mobileNumber() == null || !data.mobileNumber().matches("09\\d{8}")) {
             throw new InvalidNotificationDestinationException("手機號碼不存在或格式錯誤");
         }
-        // 簡訊可能顯示在鎖定畫面，因此只放保單末四碼，不暴露完整保單號碼。
+        // 簡訊可能顯示於手機鎖定畫面，因此不顯示完整保單號碼。
         String suffix = PersonalDataMasker.policySuffix(data.policyNumber());
         String content = "保單末四碼%s將於%s到期，應繳保費%,.0f元。".formatted(
                 suffix, data.paymentDueDate(), data.premiumAmount());
